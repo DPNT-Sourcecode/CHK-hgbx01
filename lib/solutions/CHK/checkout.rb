@@ -3,15 +3,16 @@ class Checkout
 
   PRICE_TABLE = {
     A: { price: 50, special_offers: [{ amount: 5, price: 200 }, { amount: 3, price: 130 }] },
-    B: { price: 30, special_offers: { amount: 2, price: 45 } },
+    B: { price: 30, special_offers: { [amount: 2, price: 45] } },
     C: { price: 20 },
     D: { price: 15 },
-    E: { price: 40, special_offers: { amount: 2, price: 45 } },
+    E: { price: 40, special_offers: { [amount: 2, gift: :B] } },
   }
 
   def checkout(skus)
     result = 0
     valid_chars_amount = 0
+    check = {}
     final_value = 0
 
     PRICE_TABLE.each do |item,  data|
@@ -30,5 +31,6 @@ class Checkout
     (valid_chars_amount == skus.length) ? final_value : -1
   end
 end
+
 
 
