@@ -11,11 +11,11 @@ class Checkout
   def checkout(skus)
     result = 0
     valid_chars_amount = 0
+    final_value = 0
 
     PRICE_TABLE.each do |item,  data|
       item_amount = skus.count item.to_s
 
-      final_value = 0
       if data.key? :special_offer
         final_value += (item_amount / data[:special_offer][:amount]) * data[:special_offer][:price]
         final_value += (item_amount % data[:special_offer][:amount]) * data[:price]
@@ -25,7 +25,8 @@ class Checkout
 
       valid_chars_amount += item_amount
     end
-    -1
-  end
 
+    (valid_chars_amount == skus.length) ? final_value : -1
+  end
 end
+
