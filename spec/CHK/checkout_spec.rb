@@ -9,10 +9,42 @@ describe Checkout do
     end
   end
 
-  context 'When the SKUs list has an invalid characters'
-    let(:skus) { "a" }
+  context 'When the SKUs list has an invalid character'
+    let(:skus) { "ABxD" }
     it "Return the error code" do
       expect(subject).to eq -1
+    end
+  end
+
+  context 'When the SKUs list has an lowercase character'
+    let(:skus) { "AbCD" }
+    it "Return the error code" do
+      expect(subject).to eq -1
+    end
+  end
+
+  context 'When the SKUs list is valid'
+    context 'and it has only one item'
+      let(:skus) { "A" }
+      it "Return the correct value" do
+        expect(subject).to eq 50
+      end
+    end
+
+    context 'and it has multple items of the same kind'
+      context 'without special offer'
+        let(:skus) { "CCC" }
+        it "Return the correct value" do
+          expect(subject).to eq 50
+        end
+      end
+
+      context 'with special offer'
+        let(:skus) { "BBB" }
+        it "Return the correct value" do
+          expect(subject).to eq 75
+        end
+      end
     end
   end
 end
