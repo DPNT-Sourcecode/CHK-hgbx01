@@ -9,8 +9,23 @@ class Checkout
   }
 
   def checkout(skus)
-    # I need to see the input... It's not clear to me the format.
+    result = 0
+    valid_chars_amount = 0
+
+    PRICE_TABLE.each do |item,  offer|
+      item_amount = skus.count item.to_s
+
+      price = 0
+
+      if offer.key? :special_offer
+        price += (item_amount/offer[:special_offer][:amount]) * offer[:special_offer][:price]
+      else
+      end
+
+      valid_chars_amount += item_amount
+    end
     -1
   end
 
 end
+
