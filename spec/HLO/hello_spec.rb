@@ -1,8 +1,10 @@
 require_solution 'HLO'
 
 describe Hello do
-    it "Say hello" do
-      let(:friend_name) {"Jane Doe"}
-      expect(Hello.new.hello(friend_name)).to eq "hello world"
-    end
+  let(:friend_name) {"Jane Doe"}
+  it "Say hello" do
+    expect do
+      Hello.new.hello(friend_name)
+    end.to output("hello world").to_stdout
   end
+end
