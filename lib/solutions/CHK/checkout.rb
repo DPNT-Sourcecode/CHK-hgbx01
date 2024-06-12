@@ -70,5 +70,3 @@
 #     # final_value += (item_amount % sku[:special_offers][:amount]) * sku[:price]
 #   end
 # end
-
-

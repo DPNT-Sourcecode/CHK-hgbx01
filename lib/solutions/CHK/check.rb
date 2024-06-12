@@ -98,5 +98,3 @@
 #         return new_check
 #     end
 # end
-
-
