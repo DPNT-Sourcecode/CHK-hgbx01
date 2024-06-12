@@ -1,20 +1,20 @@
 class Check
     attr_accessor :items
 
-    def add_items(sku, amount)
-        items[sku.name] ||= Item.new(0, sku)
-        items[sku.name].amount += amount
-    end
+    # def add_items(sku, amount)
+    #     items[sku.name] ||= Item.new(0, sku)
+    #     items[sku.name].amount += amount
+    # end
 
-    def remove_items(sku, amount)
-        items[sku.name] ||= Item.new(0, sku)
-        current_amount = items[sku.name].amount
-        items[sku.name].amount = max(current_amount - amount, 0)
-    end
+    # def remove_items(sku, amount)
+    #     items[sku.name] ||= Item.new(0, sku)
+    #     current_amount = items[sku.name].amount
+    #     items[sku.name].amount = max(current_amount - amount, 0)
+    # end
 
     def calculate(skus) {
       items.each do |name, item|
-        item.apply_special_offer(self)
+        item.calculate()
       end
       items.sum(&:)
     }
@@ -27,7 +27,7 @@ class Check
 end
 
 class Sku
-    attr_accessor %i[name base_price special_offers]
+    attr_accessor %i[name base_price discounts, gifts]
 
     def initialize(name, base_price, special_offers = [])
         @name = name
@@ -40,11 +40,16 @@ class Sku
 end
 
 class Item
-    attr_accessor %i[amount sku total_price]
+    attr_accessor %i[amount sku price]
 
     def initialize(amount, sku)
         @amount = amount
         @sku = sku
+        @price = 0
+    end
+
+    def apply_special_offers(check)
+
     end
 end
 
