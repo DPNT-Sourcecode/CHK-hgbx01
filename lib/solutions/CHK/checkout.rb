@@ -10,7 +10,7 @@
 
 
 class Checkout
-  attr_accessor %i[check skus]
+  attr_accessor %i[check supported_skus]
 
   def initialize
     initialize_skus
@@ -18,15 +18,14 @@ class Checkout
   end
 
   def checkout(skus)
+    supported_skus.each do |item,  sku|
+      check.add_items(sku, skus.count item.to_s)
+      # check[item][:amount] = skus.count item.to_s
 
-    skus.each do |item,  data|
-      check[item] || = { total_price: 0 }
-      check[item][:amount] = skus.count item.to_s
-
-      if data.key? :special_offers
+      if sku.key? :special_offers
         calculate_special_offers(check)
       else
-        check[item][:total_price] += data[:price] * check[item][:amount]
+        check[item][:total_price] += sku[:price] * check[item][:amount]
       end
     end
 
@@ -45,21 +44,21 @@ class Checkout
 # | E    | 40    | 2E get one B free      |
 # +------+-------+------------------------+
   def initialize_skus
-    new_skus = {}
+    skus = {}
 
-    new_skus[:A] = Sku.new(50, [Discount.new(5, 200), Discount.new(3, 130)])
-    new_skus[:B] = Sku.new(30, [Discount.new(2, 45)])
-    new_skus[:C] = Sku.new(20)
-    new_skus[:D] = Sku.new(15)
-    new_skus[:E] = Sku.new(40, [Gift.new(2, 'B')])
+    skus[:A] = Sku.new(:A, 50, [Discount.new(5, 200), Discount.new(3, 130)])
+    skus[:B] = Sku.new(:B, 30, [Discount.new(2, 45)])
+    skus[:C] = Sku.new(:C, 20)
+    skus[:D] = Sku.new(:D, 15)
+    skus[:E] = Sku.new(:E, 40, [Gift.new(2, 'B')])
 
-    @skus = new_skus
+    @supported_skus = skus
   end
 
 
   def calculate_special_offers
-    # final_value += (item_amount / data[:special_offers][:amount]) * data[:special_offers][:price]
-    # final_value += (item_amount % data[:special_offers][:amount]) * data[:price]
+    # final_value += (item_amount / sku[:special_offers][:amount]) * sku[:special_offers][:price]
+    # final_value += (item_amount % sku[:special_offers][:amount]) * sku[:price]
   end
 
   def calculate_discounts
@@ -68,6 +67,7 @@ class Checkout
   def calculate_gifts
   end
 end
+
 
 
 
