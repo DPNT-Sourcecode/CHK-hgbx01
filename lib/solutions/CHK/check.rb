@@ -2,12 +2,12 @@ class Check
     attr_accessor :items
 
     def add_items(sku, amount)
-        items[sku.name] ||= CheckEntry.new(0, sku)
+        items[sku.name] ||= Item.new(0, sku)
         items[sku.name].amount += amount
     end
 
     def remove_items(sku, amount)
-        items[sku.name] ||= CheckEntry.new(0, sku)
+        items[sku.name] ||= Item.new(0, sku)
         current_amount = items[sku.name].amount
         items[sku.name].amount = max(current_amount - amount, 0)
     end
@@ -39,7 +39,7 @@ class Sku
     end
 end
 
-class CheckEntry
+class Item
     attr_accessor %i[amount sku total_price]
 
     def initialize(amount, sku)
@@ -49,8 +49,12 @@ class CheckEntry
 end
 
 class SpecialOffer
-    def apply(check)
+    def apply_discount(check)
         raise 'Not implemented'
+    end
+
+    def apply_gifts
+
     end
 end
 
@@ -81,5 +85,6 @@ class Gift < SpecialOffer
         return new_check
     end
 end
+
 
 
