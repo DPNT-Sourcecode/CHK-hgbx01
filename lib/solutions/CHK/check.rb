@@ -1,9 +1,9 @@
 class Check
     attr_accessor :items
 
-    def initialize(items)
-        @items = items
-    end
+    # def initialize(items)
+    #     @items = items
+    # end
 
 
 end
@@ -19,6 +19,11 @@ end
 
 class Item
     attr_accessor %i[amount total_price]
+
+    def initialize(amount, total_price)
+        @amount = amount
+        @total_price = total_price
+    end
 end
 
 class SpecialOffer
@@ -54,3 +59,4 @@ class Gift < SpecialOffer
         return new_check
     end
 end
+
