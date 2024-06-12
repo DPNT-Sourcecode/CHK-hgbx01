@@ -8,7 +8,11 @@ class Check
 
 end
 
-class Item
-    attr_accessor %i{base_price amount total_price total_price}
+class Sku
+    attr_accessor %i[base_price special_offers]
 
+end
+
+class Item
+    attr_accessor %i[amount total_price]
 end
