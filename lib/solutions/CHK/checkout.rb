@@ -10,11 +10,11 @@
 
 
 class Checkout
-  attr_accessor %i[check supported_skus]
+  attr_accessor %i[items supported_skus]
 
   def initialize
     initialize_skus
-    @check = Check.new
+    @items = {}
   end
 
   def checkout(input_skus)
@@ -39,17 +39,31 @@ class Checkout
   def initialize_skus
     skus = {}
 
-    skus[:A] = Sku.new(:A, 50, [Discount.new(5, 200), Discount.new(3, 130)])
-    skus[:B] = Sku.new(:B, 30, [Discount.new(2, 45)])
-    skus[:C] = Sku.new(:C, 20)
-    skus[:D] = Sku.new(:D, 15)
-    skus[:E] = Sku.new(:E, 40, [Gift.new(2, 'B')])
+    skus[:A] = Sku.new(:A, 50, [Discount.new(5, 200), Discount.new(3, 130)], [])
+    skus[:B] = Sku.new(:B, 30, [Discount.new(2, 45)], [])
+    skus[:C] = Sku.new(:C, 20, [], [])
+    skus[:D] = Sku.new(:D, 15, [], [])
+    skus[:E] = Sku.new(:E, 40, [], [Gift.new(2, 'B')])
 
     @supported_skus = skus
   end
 
+  def add_items(sku, amount)
+    items[sku.name] ||= Item.new(0, sku)
+    items[sku.name].amount += amount
+  end
+
+  def remove_items(sku, amount)
+      items[sku.name] ||= Item.new(0, sku)
+      current_amount = items[sku.name].amount
+      items[sku.name].amount = max(current_amount - amount, 0)
+  end
 
   def calculate_special_offers
+    items.each do |name, item|
+      item.sku.apply_discount
+      item.sku.apply_gifts
+    end
     # final_value += (item_amount / sku[:special_offers][:amount]) * sku[:special_offers][:price]
     # final_value += (item_amount % sku[:special_offers][:amount]) * sku[:price]
   end
@@ -60,3 +74,4 @@ class Checkout
   def calculate_gifts
   end
 end
+
