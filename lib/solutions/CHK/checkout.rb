@@ -60,4 +60,3 @@ class Checkout
   def calculate_gifts
   end
 end
-
