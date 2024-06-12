@@ -1,7 +1,16 @@
 # # noinspection RubyUnusedLocalVariable
+
+# PRICE_TABLE = {
+#   A: { price: 50, special_offers: { discounts: [ { amount: 5, price: 200 }, { amount: 3, price: 130 } ] } },
+#   B: { price: 30, special_offers: { discounts: [ { amount: 2, price: 45 } ] } },
+#   C: { price: 20 },
+#   D: { price: 15 },
+#   E: { price: 40, special_offers: { gifts: [ { amount: 2, gift: :B } ] } },
+# }
+
+
 class Checkout
   attr_accessor %i[check skus]
-
 
   def initialize
     initialize_skus
@@ -9,8 +18,6 @@ class Checkout
   end
 
   def checkout(skus)
-    check = {}
-    final_value = 0
 
     PRICE_TABLE.each do |item,  data|
       check[item] || = { total_price: 0 }
@@ -28,15 +35,15 @@ class Checkout
 
   private
 
-  # This is too complex. Maybe it is better to make add OOP...
-  # PRICE_TABLE = {
-  #   A: { price: 50, special_offers: { discounts: [ { amount: 5, price: 200 }, { amount: 3, price: 130 } ] } },
-  #   B: { price: 30, special_offers: { discounts: [ { amount: 2, price: 45 } ] } },
-  #   C: { price: 20 },
-  #   D: { price: 15 },
-  #   E: { price: 40, special_offers: { gifts: [ { amount: 2, gift: :B } ] } },
-  # }
-
+# +------+-------+------------------------+
+# | Item | Price | Special offers         |
+# +------+-------+------------------------+
+# | A    | 50    | 3A for 130, 5A for 200 |
+# | B    | 30    | 2B for 45              |
+# | C    | 20    |                        |
+# | D    | 15    |                        |
+# | E    | 40    | 2E get one B free      |
+# +------+-------+------------------------+
   def initialize_skus
     skus = {}
 
@@ -61,5 +68,6 @@ class Checkout
   def calculate_gifts
   end
 end
+
 
 
