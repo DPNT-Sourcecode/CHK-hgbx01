@@ -5,13 +5,20 @@ class Check
     #     @items = items
     # end
 
+    def add_items(sku, amount)
 
+    end
+
+    def calculate(skus) {
+
+    }
 end
 
 class Sku
-    attr_accessor %i[base_price special_offers]
+    attr_accessor %i[base_price special_offers key]
 
-    def initialize(base_price, special_offers)
+    def initialize(key, base_price, special_offers = [])
+        @key = key
         @base_price = base_price
         @special_offers = special_offers
     end
@@ -59,4 +66,5 @@ class Gift < SpecialOffer
         return new_check
     end
 end
+
 

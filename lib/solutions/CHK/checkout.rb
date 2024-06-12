@@ -19,7 +19,7 @@ class Checkout
 
   def checkout(skus)
 
-    PRICE_TABLE.each do |item,  data|
+    skus.each do |item,  data|
       check[item] || = { total_price: 0 }
       check[item][:amount] = skus.count item.to_s
 
@@ -45,15 +45,15 @@ class Checkout
 # | E    | 40    | 2E get one B free      |
 # +------+-------+------------------------+
   def initialize_skus
-    skus = {}
+    new_skus = {}
 
-    skus[:A] = Sku.new(50, [Discount.new(5, 200), Discount.new(3, 130)])
-    skus[:B] = Sku.new(30, [Discount.new(2, 45)])
-    skus[:C] = Sku.new(20)
-    skus[:D] = Sku.new(15)
-    skus[:E] = Sku.new(40, [Gift.new(2, 'B')])
+    new_skus[:A] = Sku.new(50, [Discount.new(5, 200), Discount.new(3, 130)])
+    new_skus[:B] = Sku.new(30, [Discount.new(2, 45)])
+    new_skus[:C] = Sku.new(20)
+    new_skus[:D] = Sku.new(15)
+    new_skus[:E] = Sku.new(40, [Gift.new(2, 'B')])
 
-    @skus = skus
+    @skus = new_skus
   end
 
 
@@ -68,6 +68,7 @@ class Checkout
   def calculate_gifts
   end
 end
+
 
 
 
