@@ -6,10 +6,12 @@ class Check
     # end
 
     def add_items(sku, amount)
-        items.key?(sku.name) ? (items[sku.name].amount += amount) : CheckEntry.new(amount, sku)
+        items[sku.name] ||= CheckEntry.new(0, sku)
+        items[sku.name].amount += amount
     end
 
     def remove_items(sku, amount)
+        items[sku.name] ||= CheckEntry.new(0, sku)
         current_amount = items[sku.name].amount
         items[sku.name].amount = max(current_amount - amount, 0)
     end
@@ -84,3 +86,4 @@ class Gift < SpecialOffer
         return new_check
     end
 end
+
