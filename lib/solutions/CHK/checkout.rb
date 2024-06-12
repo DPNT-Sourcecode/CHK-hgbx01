@@ -1,17 +1,11 @@
 # # noinspection RubyUnusedLocalVariable
 class Checkout
-  attr_accessor :check
-  # This is too complex. Maybe it is better to make add OOP...
-  PRICE_TABLE = {
-    A: { price: 50, special_offers: { discounts: [ { amount: 5, price: 200 }, { amount: 3, price: 130 } ] } },
-    B: { price: 30, special_offers: { discounts: [ { amount: 2, price: 45 } ] } },
-    C: { price: 20 },
-    D: { price: 15 },
-    E: { price: 40, special_offers: { gifts: [ { amount: 2, gift: :B } ] } },
-  }
+  attr_accessor %i[check skus]
+
 
   def initialize
-
+    initialize_skus
+    @check = Check.new
   end
 
   def checkout(skus)
@@ -34,6 +28,28 @@ class Checkout
 
   private
 
+  # This is too complex. Maybe it is better to make add OOP...
+  # PRICE_TABLE = {
+  #   A: { price: 50, special_offers: { discounts: [ { amount: 5, price: 200 }, { amount: 3, price: 130 } ] } },
+  #   B: { price: 30, special_offers: { discounts: [ { amount: 2, price: 45 } ] } },
+  #   C: { price: 20 },
+  #   D: { price: 15 },
+  #   E: { price: 40, special_offers: { gifts: [ { amount: 2, gift: :B } ] } },
+  # }
+
+  def initialize_skus
+    skus = {}
+
+    skus[:A] = Sku.new(50, [Discount.new(5, 200), Discount.new(3, 130)])
+    skus[:B] = Sku.new(30, [Discount.new(2, 45)])
+    skus[:C] = Sku.new(20)
+    skus[:D] = Sku.new(15)
+    skus[:E] = Sku.new(40, [Gift.new(2, 'B')])
+
+    @skus = skus
+  end
+
+
   def calculate_special_offers
     # final_value += (item_amount / data[:special_offers][:amount]) * data[:special_offers][:price]
     # final_value += (item_amount % data[:special_offers][:amount]) * data[:price]
@@ -45,4 +61,5 @@ class Checkout
   def calculate_gifts
   end
 end
+
 
