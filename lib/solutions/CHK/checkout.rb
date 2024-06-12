@@ -17,19 +17,12 @@ class Checkout
     @check = Check.new
   end
 
-  def checkout(skus)
+  def checkout(input_skus)
     supported_skus.each do |item,  sku|
-      check.add_items(sku, skus.count item.to_s)
-      # check[item][:amount] = skus.count item.to_s
-
-      if sku.key? :special_offers
-        calculate_special_offers(check)
-      else
-        check[item][:total_price] += sku[:price] * check[item][:amount]
-      end
+      check.add_items(sku, input_skus.count(item.to_s))
     end
 
-    (check.sum(&:amount) == skus.length) ? check.sum(&:total_price) : -1
+    (check.items_amount == input_skus.length) ? check.calculate : -1
   end
 
   private
@@ -67,3 +60,4 @@ class Checkout
   def calculate_gifts
   end
 end
+
