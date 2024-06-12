@@ -6,30 +6,48 @@ class Check
     # end
 
     def add_items(sku, amount)
+        items.key?(sku.name) ? (items[sku.name].amount += amount) : CheckEntry.new(amount, sku)
+    end
 
+    def remove_items(sku, amount)
+        current_amount = items[sku.name].amount
+        items[sku.name].amount = max(current_amount - amount, 0)
+    end
+
+    def items_amount
+        items.sum(&:amount)
     end
 
     def calculate(skus) {
-
+      items.sum(&:)
     }
+
+    # if sku.key? :special_offers
+    #   calculate_special_offers(check)
+    # else
+    #   check[item][:total_price] += sku[:price] * check[item][:amount]
+    # end
 end
 
 class Sku
-    attr_accessor %i[base_price special_offers key]
+    attr_accessor %i[name base_price special_offers]
 
-    def initialize(key, base_price, special_offers = [])
-        @key = key
+    def initialize(name, base_price, special_offers = [])
+        @name = name
         @base_price = base_price
         @special_offers = special_offers
     end
+
+    def apply_special_offer(amount)
+    end
 end
 
-class Item
-    attr_accessor %i[amount total_price]
+class CheckEntry
+    attr_accessor %i[amount sku]
 
-    def initialize(amount, total_price)
+    def initialize(amount, sku)
         @amount = amount
-        @total_price = total_price
+        @sku = sku
     end
 end
 
