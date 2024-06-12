@@ -16,7 +16,8 @@ class Checkout
     final_value = 0
 
     PRICE_TABLE.each do |item,  data|
-      check[item] || = { amount: 0, total_price: skus.count item.to_s }
+      check[item] || = { total_price: 0 }
+      check[item][:amount] = skus.count item.to_s
 
       if data.key? :special_offers
         final_value += (item_amount / data[:special_offers][:amount]) * data[:special_offers][:price]
@@ -28,7 +29,7 @@ class Checkout
       valid_chars_amount += item_amount
     end
 
-    (valid_chars_amount == skus.length) ? final_value : -1
+    (check.sum(&:amount) == skus.length) ? check.sum(&:total_price) : -1
   end
 
   private
@@ -42,6 +43,7 @@ class Checkout
   def calculate_gifts
   end
 end
+
 
 
 
