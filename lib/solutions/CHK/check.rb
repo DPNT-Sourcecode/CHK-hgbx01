@@ -11,6 +11,10 @@ end
 class Sku
     attr_accessor %i[base_price special_offers]
 
+    def initialize(base_price, special_offers)
+        @base_price = base_price
+        @special_offers = special_offers
+    end
 end
 
 class Item
@@ -26,6 +30,11 @@ end
 class Discount < SpecialOffer
     attr_accessor %i[amount new_price]
 
+    def initialize(amount, new_price)
+        @amount = amount
+        @new_price = new_price
+    end
+
     def apply(check)
         new_check = check
         return new_check
@@ -35,8 +44,9 @@ end
 class Gift < SpecialOffer
     attr_accessor %i[amount item_name]
 
-    def initialize(items)
-        @items = items
+    def initialize(amount, item_name)
+        @amount = amount
+        @item_name = item_name
     end
 
     def apply(check)

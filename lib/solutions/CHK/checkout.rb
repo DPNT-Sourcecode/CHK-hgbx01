@@ -1,6 +1,6 @@
 # # noinspection RubyUnusedLocalVariable
 class Checkout
-
+  attr_accessor :check
   # This is too complex. Maybe it is better to make add OOP...
   PRICE_TABLE = {
     A: { price: 50, special_offers: { discounts: [ { amount: 5, price: 200 }, { amount: 3, price: 130 } ] } },
@@ -9,6 +9,10 @@ class Checkout
     D: { price: 15 },
     E: { price: 40, special_offers: { gifts: [ { amount: 2, gift: :B } ] } },
   }
+
+  def initialize
+
+  end
 
   def checkout(skus)
     check = {}
@@ -41,3 +45,4 @@ class Checkout
   def calculate_gifts
   end
 end
+
